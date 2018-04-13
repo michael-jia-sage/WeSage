@@ -1,0 +1,13 @@
+<!--pages/index/detail.wxml-->
+<view class="container">
+  <view class="trans-wrapper">
+    <text class="trans-datetime">Date/Time: {{trans.date_time}}</text>
+    <text class="trans-type">Type: {{trans.trans_type}}</text>
+    <text class="trans-id">Trx ID: {{trans.trans_id}}</text>
+    <text class="trans-amount">Amount: {{trans.amount}}</text>
+    <text class="trans-memo">Memo: {{trans.memo}}</text>
+  </view>
+  <view class="trans-bottom">
+    <button class="weui-btn" type="primary" bindtap="goSync">Sync to Sage</button>
+  </view>
+</view>

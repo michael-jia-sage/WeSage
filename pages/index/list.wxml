@@ -1,0 +1,17 @@
+<!--pages/index/list.wxml-->
+<view class="item-wrapper">
+    <view class="item-list" wx:for="{{transactionArray}}" wx:for-item="item" wx:for-index="index" wx:key="that">
+        <view class="item-info" data-index="{{index}}" id="{{item.id}}" bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" bindtap="itemDetail" style="left:{{item.left + 'rpx'}}">
+            <view class="info-wrapper">
+                <view class="info-desc">
+                    <view class="name">{{item.memo}}</view>
+                    <view class="time">{{item.date_time}}</view>
+                </view>
+                <view class="info-content">{{item.amount}}</view>
+            </view>
+        </view>
+        <view class="item-oper">
+            <view class="oper-sync" bindtap="itemSync" data-index="{{index}}">Sync</view>
+        </view>
+    </view>
+</view>

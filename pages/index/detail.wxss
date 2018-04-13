@@ -1,0 +1,12 @@
+/* pages/index/detail.wxss */
+.trans-wrapper{
+  margin-left: 20rpx;
+  width: 588rpx;
+}
+.trans-bottom{
+  margin: 100rpx;
+  vertical-align: bottom
+}
+text{
+  display: block;
+}
