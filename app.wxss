@@ -5,6 +5,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 200rpx 0;
   box-sizing: border-box;
-} 
+}
+
+.section {
+  border: solid 1rpx #ddd;
+  background-color: #eee;
+  border-radius: 5rpx;
+  width: 80%;
+  margin: 15rpx;
+  padding: 15rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section__title {
+  margin-bottom: 15rpx;
+  border-bottom: 1rpx solid #ccc;
+  width: 80%;
+  align-self: left;
+}

@@ -14,6 +14,26 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const trxAmountStyle = trxType => {
+  switch (trxType) {
+    case 'pay':
+    case 'transfer':
+      return 'minus';
+      break;
+    default:
+      return 'plus';
+  }
+}
+
+const trxStyle = trx => {
+  if (trx.selected) { return 'selected'; }
+  else if (trx.filtered || trx.synced) { return 'hidden'; }
+  else return ''
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  formatNumber: formatNumber,
+  trxAmountStyle: trxAmountStyle,
+  trxStyle: trxStyle
 }

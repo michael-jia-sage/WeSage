@@ -55,5 +55,15 @@ Page({
     wx.navigateTo({
       url: 'list',
     })
+  },
+  openSettingPage: function (e) {
+    wx.navigateTo({
+      url: 'setting',
+    })
+  },
+  openLogsPage: function (e) {
+    wx.navigateTo({
+      url: '/pages/logs/logs',
+    })
   }
 })

@@ -8,7 +8,8 @@
     </block>
   </view>
   <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
     <button class="weui-btn" type="primary" bindtap="openListPage">Sync Sage</button>
+    <button class="weui-btn" type="secondary" bindtap="openSettingPage">Settings</button>
+    <button class="weui-btn" type="secondary" bindtap="openLogsPage">Logs</button>
   </view>
 </view>

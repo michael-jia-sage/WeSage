@@ -1,0 +1,11 @@
+/* pages/index/setting.wxss */
+picker, input {
+  background-color: #fff;
+  padding: 10rpx;
+  margin: 5rpx;
+  width: 90%;
+}
+
+button {
+  margin: 10rpx;
+}

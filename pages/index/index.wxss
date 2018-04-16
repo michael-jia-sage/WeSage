@@ -1,4 +1,8 @@
 /**index.wxss**/
+.section {
+  padding: 200rpx 0;
+}
+
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -17,5 +21,9 @@
 }
 
 .usermotto {
-  margin-top: 200px;
+  margin-top: 200rpx;
+}
+
+.weui-btn {
+  margin-top: 30rpx;
 }

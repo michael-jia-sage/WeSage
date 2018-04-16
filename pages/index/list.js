@@ -1,5 +1,6 @@
 // pages/index/list.js
 const App = getApp()
+const util = require('../../utils/util.js')
 import transactionArray from './mock.js'
 
 Page({
@@ -8,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    transactionArray,
+    transactionArray
   },
 
   touchS: function (e) {  // touchstart
@@ -21,7 +22,7 @@ Page({
 
   },
   touchE: function (e) {  // touchend
-    const width = 150  // 定义操作列表宽度
+    const width = 300  // 定义操作列表宽度
     let transactionArray = App.Touches.touchE(e, this.data.transactionArray, this.data.startX, width)
     transactionArray && this.setData({ transactionArray })
   },
@@ -39,7 +40,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    for (let i = 0; i < transactionArray.length; i++) {
+      //console.log(resultSet[i])
+      this.data.transactionArray[i].selected = false;
+      this.data.transactionArray[i].filtered = false;
+      this.data.transactionArray[i].synced = false;
+      this.data.transactionArray[i].amount_style = util.trxAmountStyle(this.data.transactionArray[i].trans_type);
+      this.data.transactionArray[i].style = util.trxStyle(this.data.transactionArray[i]);
+    }
+    this.setData({ transactionArray: this.data.transactionArray })
   },
 
   /**

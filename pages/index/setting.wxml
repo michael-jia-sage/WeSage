@@ -1,0 +1,28 @@
+<!--pages/index/setting.wxml-->
+<view class="container">
+  <view class="header"></view>
+  <view class="section">
+    <view class="section__title">Authentication</view>
+    <input placeholder='Sage Username / Email address' id='username' type='email'></input>
+    <input placeholder='password' id='password' type='password'></input>
+    <button class="weui-btn" type="primary" bindtap="connectSage">Connect to Sage</button>
+  </view>
+  <view class="section">
+    <view class="section__title">Invoice</view>
+    <text style='align-self: left;'>Default Ledger Account</text>
+    <picker bindchange="bindInvLedgerPickerChange" value="{{inv_index}}" range="{{inv_ledgers}}">
+      <view class="picker">
+        {{inv_ledgers[inv_index]}}
+      </view>
+    </picker>
+  </view>
+  <view class="section">
+    <view class="section__title">Payment</view>
+    <text style='align-self: left;'>Default Ledger Account</text>
+    <picker bindchange="bindPayLedgerPickerChange" value="{{pay_index}}" range="{{pay_ledgers}}">
+      <view class="picker">
+        {{pay_ledgers[pay_index]}}
+      </view>
+    </picker>
+  </view>
+</view>

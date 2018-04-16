@@ -1,9 +1,11 @@
 {
+  "navigationBarTitleText": "WeSage",
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
     "pages/index/list",
-    "pages/index/detail"
+    "pages/index/detail",
+    "pages/index/setting"
   ],
   "window": {
     "backgroundTextStyle": "light",
