@@ -1,12 +1,29 @@
 /* pages/index/detail.wxss */
-.trans-wrapper{
-  margin-left: 20rpx;
-  width: 588rpx;
+.row{
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: 20rpx
 }
+
+text.label{
+  display: inline-block;
+  width: 30%;
+  text-align: left;
+  font-size: 28rpx;
+  color: gray
+}
+
+view.value{
+  display: inline-block;
+  width: 70%;
+  text-align: right
+}
+view.value.small{
+  font-size: 28rpx
+}
+
 .trans-bottom{
-  margin: 100rpx;
-  vertical-align: bottom
-}
-text{
-  display: block;
+  margin: 50rpx;
+  align-items: center
 }

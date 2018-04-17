@@ -26,3 +26,21 @@
   width: 80%;
   align-self: left;
 }
+
+.amount{
+    font-size: 40rpx;
+    color: black;
+    font-weight: 800;
+}
+.amount.plus{
+  color: limegreen;
+}
+.amount.plus::before{
+  content: '+';
+}
+.amount.minus{
+  color: lightcoral;
+}
+.amount.minus::before{
+  content: '-';
+}

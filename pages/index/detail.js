@@ -1,5 +1,5 @@
 // pages/index/detail.js
-import transactionArray from './mock.js'
+const App = getApp()
 
 Page({
 
@@ -14,17 +14,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var tId = options.id
-    console.log("id = " + tId)
-    for (let i = 0; i < transactionArray.length; i++) {
-      //console.log(resultSet[i])
-      if (tId == transactionArray[i].id) {
-        this.setData({
-          trans: transactionArray[i]
-        })
-        break
-      }
-    }
+    this.setData({ trans: App.globalData.trans })
   },
 
   /**

@@ -2,6 +2,9 @@
 import Touches from './utils/Touches.js'
 
 App({
+  globalData: {
+  },
+
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
@@ -36,7 +39,8 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    trans: null
   },
   Touches: new Touches()
 })

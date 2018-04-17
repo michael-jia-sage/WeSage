@@ -101,7 +101,12 @@
     background: white;
     transition: left 0.2s ease-in-out;
 }
-
+.item-info.selected{
+  background-color: #bfb
+}
+.item-info.hidden{
+  display: none;
+}
 .item-list:first-child{
     border-top: 1rpx solid #ccc;
 }
@@ -160,24 +165,6 @@
     margin-top: 6rpx;
     text-align: right;
     align-content: right;
-}
-
-.info-right .amount{
-    font-size: 40rpx;
-    color: black;
-    font-weight: 800;
-}
-.info-right .amount.plus{
-  color: limegreen;
-}
-.info-right .amount.plus::before{
-  content: '+';
-}
-.info-right .amount.minus{
-  color: lightcoral;
-}
-.info-right .amount.minus::before{
-  content: '-';
 }
 
 .info-right .trans_type{

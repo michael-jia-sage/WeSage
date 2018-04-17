@@ -29,11 +29,15 @@ Page({
   itemSync: function (e) {  // itemDelete
     // let itemData = App.Touches.deleteItem(e, this.data.itemData)
     // itemData && this.setData({ itemData })
+    App.globalData.trans = this.data.transactionArray[e.currentTarget.dataset.index]
+    wx.navigateTo({
+      url: 'detail'
+    })
   },
   itemDetail: function (e) {
-    wx.navigateTo({
-      url: 'detail?id=' + e.currentTarget.id
-    })
+    this.data.transactionArray[e.currentTarget.dataset.index].selected = !this.data.transactionArray[e.currentTarget.dataset.index].selected
+    this.data.transactionArray[e.currentTarget.dataset.index].style = util.trxStyle(this.data.transactionArray[e.currentTarget.dataset.index])
+    this.setData({ transactionArray: this.data.transactionArray })
   },
 
   /**
