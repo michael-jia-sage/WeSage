@@ -27,13 +27,56 @@ const trxAmountStyle = trxType => {
 
 const trxStyle = trx => {
   if (trx.selected) { return 'selected'; }
-  else if (trx.filtered || trx.synced) { return 'hidden'; }
+  else if (!trx.displayed || trx.synced) { return 'hidden'; }
   else return ''
+}
+
+const trxInitial = trx => {
+  trx.selected = false
+  trx.displayed = true
+  trx.synced = false
+  trx.amount_style = trxAmountStyle(trx.trans_type)
+  trx.style = trxStyle(trx)
+  return trx
+}
+
+const compareTrxDate = (trx1, trx2) => {
+  if (trx1.date_time < trx2.date_time) {
+    return -1;
+  }
+  if (trx1.date_time > trx2.date_time) {
+    return 1;
+  }
+  return 0;
+}
+
+const compareTrxAmount = (trx1, trx2) => {
+  if (Number(trx1.amount) < Number(trx2.amount)) {
+    return -1;
+  }
+  if (Number(trx1.amount) > Number(trx2.amount)) {
+    return 1;
+  }
+  return 0;
+}
+
+const compareTrxMemo = (trx1, trx2) => {
+  if (trx1.memo < trx2.memo) {
+    return -1;
+  }
+  if (trx1.memo > trx2.memo) {
+    return 1;
+  }
+  return 0;
 }
 
 module.exports = {
   formatTime: formatTime,
   formatNumber: formatNumber,
   trxAmountStyle: trxAmountStyle,
-  trxStyle: trxStyle
+  trxStyle: trxStyle,
+  trxInitial: trxInitial,
+  compareTrxDate: compareTrxDate,
+  compareTrxAmount: compareTrxAmount,
+  compareTrxMemo: compareTrxMemo
 }

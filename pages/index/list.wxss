@@ -7,7 +7,7 @@
 }
 
 .list-top {
-  height:280rpx;
+  height:320rpx;
   flex:none;
   margin: 0 20rpx 20rpx 20rpx;
   border: solid 1rpx #ddd;
@@ -18,6 +18,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.list-top .row button {
+  width: 30%;
 }
 
 .row {
@@ -31,12 +35,15 @@
 }
 
 .row text {
-  height: 35rpx;
-  width: 70rpx;
+  height: 50rpx;
   padding-top: 10rpx;
+}
+.row text.label {
+  width: 100rpx;
   align-content: left;
   align-self: left;
   vertical-align: middle;
+  margin-right: 20rpx;
 }
 
 .row button {
@@ -46,13 +53,29 @@
 
 .sync-row {
   margin-top: 20rpx;
-  margin-bottom: 0;
+  margin-bottom: 20rpx;
 }
 .sync-row .left {
   width: 75%;
   height: 50rpx;
   padding-top: 10rpx;
   align-items: flex-start;
+}
+
+.sync-row .left text.amount {
+  min-width: 100rpx;
+  margin-left: 10rpx;
+  font-size: 32rpx;
+  text-align: center;
+  color: blueviolet;
+}
+
+.sync-row .left button.small {
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+  vertical-align: top;
+  margin-top: 10rpx;
+  color: darkgreen;
 }
 
 .sync-row .right {
@@ -62,7 +85,8 @@
 .sync-row .right button{
   width: 150rpx;
   font-size: 40rpx; 
-  height: 100rpx;
+  height: 140rpx;
+  padding-top: 20rpx;
 }
 
 .list-bottom {
@@ -104,8 +128,8 @@
 .item-info.selected{
   background-color: #bfb
 }
-.item-info.hidden{
-  display: none;
+.item-info.hidden, .item-oper.hidden{
+  visibility: hidden;
 }
 .item-list:first-child{
     border-top: 1rpx solid #ccc;

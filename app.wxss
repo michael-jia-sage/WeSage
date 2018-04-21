@@ -44,3 +44,11 @@
 .amount.minus::before{
   content: '-';
 }
+
+.bold{
+  font-weight: bold;
+}
+
+.small{
+  font-size: 16rpx;
+}

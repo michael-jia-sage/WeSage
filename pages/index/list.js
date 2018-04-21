@@ -1,7 +1,7 @@
 // pages/index/list.js
 const App = getApp()
 const util = require('../../utils/util.js')
-import transactionArray from './mock.js'
+import mockTransactions from './mock.js'
 
 Page({
 
@@ -9,7 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    transactionArray
+    myTransactions: [],
+    selected: 0,
+    subtotal: 0,
+    disabled: true
   },
 
   touchS: function (e) {  // touchstart
@@ -17,42 +20,119 @@ Page({
     startX && this.setData({ startX })
   },
   touchM: function (e) {  // touchmove
-    let transactionArray = App.Touches.touchM(e, this.data.transactionArray, this.data.startX)
-    transactionArray && this.setData({ transactionArray })
+    let myTransactions = App.Touches.touchM(e, this.data.myTransactions, this.data.startX)
+    myTransactions && this.setData({ myTransactions })
 
   },
   touchE: function (e) {  // touchend
     const width = 300  // 定义操作列表宽度
-    let transactionArray = App.Touches.touchE(e, this.data.transactionArray, this.data.startX, width)
-    transactionArray && this.setData({ transactionArray })
+    let myTransactions = App.Touches.touchE(e, this.data.myTransactions, this.data.startX, width)
+    myTransactions && this.setData({ myTransactions })
   },
-  itemSync: function (e) {  // itemDelete
-    // let itemData = App.Touches.deleteItem(e, this.data.itemData)
-    // itemData && this.setData({ itemData })
-    App.globalData.trans = this.data.transactionArray[e.currentTarget.dataset.index]
+  itemViewSync: function (e) {
+    App.globalData.trans = this.data.myTransactions[e.currentTarget.dataset.index]
     wx.navigateTo({
       url: 'detail'
     })
   },
-  itemDetail: function (e) {
-    this.data.transactionArray[e.currentTarget.dataset.index].selected = !this.data.transactionArray[e.currentTarget.dataset.index].selected
-    this.data.transactionArray[e.currentTarget.dataset.index].style = util.trxStyle(this.data.transactionArray[e.currentTarget.dataset.index])
-    this.setData({ transactionArray: this.data.transactionArray })
+  itemSelect: function (e) {
+    var idx = e.currentTarget.dataset.index
+    var trans = this.data.myTransactions[idx]
+    trans.selected = !trans.selected
+    trans.style = util.trxStyle(trans)
+    this.setData({ myTransactions: this.data.myTransactions })
+    var times = trans.amount_style == 'plus' ? 1 : -1
+    if (trans.selected) {
+      this.setData({ 
+        selected: this.data.selected + 1, 
+        subtotal: this.data.subtotal + times * Number(trans.amount) 
+      })
+    } else {
+      this.setData({ 
+        selected: this.data.selected - 1, 
+        subtotal: this.data.subtotal - times * Number(trans.amount)
+      })
+    }
+    this.setData({ disabled: this.data.selected <= 0 })
+  },
+
+  selectAll: function (e) {
+    var myTransactions = this.data.myTransactions
+    var selected = myTransactions.length, subtotal = 0
+    for (let i = 0; i < selected; i++) {
+      myTransactions[i].selected = true
+      myTransactions[i].style = util.trxStyle(myTransactions[i])
+      if (myTransactions[i].amount_style == 'plus') {
+        subtotal += Number(myTransactions[i].amount)
+      } else {
+        subtotal -= Number(myTransactions[i].amount)
+      }
+    }
+    this.setData({ selected, subtotal, myTransactions })
+  },
+
+  unselectAll: function (e) {
+    var myTransactions = this.data.myTransactions
+    for (let i = 0; i < myTransactions.length; i++) {
+      myTransactions[i].selected = false
+      myTransactions[i].style = util.trxStyle(myTransactions[i])
+    }
+    this.setData({ selected: 0, subtotal: 0, myTransactions })
+  },
+
+  showAll: function (e) {
+    for (let i = 0; i < mockTransactions.length; i++) {
+      mockTransactions[i] = util.trxInitial(mockTransactions[i])
+    }
+    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: mockTransactions })
+  },
+
+  showReceive: function (e) {
+    var myTransactions = []
+    for (let i = 0; i < mockTransactions.length; i++) {
+      if (mockTransactions[i].trans_type == 'receive') {
+        myTransactions.push(util.trxInitial(mockTransactions[i]))
+      }
+    }
+    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
+  },
+
+  showPayments: function (e) {
+    var myTransactions = []
+    for (let i = 0; i < mockTransactions.length; i++) {
+      if (mockTransactions[i].trans_type == 'pay') {
+        myTransactions.push(util.trxInitial(mockTransactions[i]))
+      }
+    }
+    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
+  },
+
+  sortByDate: function (e) {
+    this.setData({
+      myTransactions: this.data.myTransactions.sort(util.compareTrxDate)
+    })
+  },
+
+  sortByAmount: function (e) {
+    this.setData({
+      myTransactions: this.data.myTransactions.sort(util.compareTrxAmount)
+    })
+  },
+
+  sortByMemo: function (e) {
+    this.setData({
+      myTransactions: this.data.myTransactions.sort(util.compareTrxMemo)
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    for (let i = 0; i < transactionArray.length; i++) {
-      //console.log(resultSet[i])
-      this.data.transactionArray[i].selected = false;
-      this.data.transactionArray[i].filtered = false;
-      this.data.transactionArray[i].synced = false;
-      this.data.transactionArray[i].amount_style = util.trxAmountStyle(this.data.transactionArray[i].trans_type);
-      this.data.transactionArray[i].style = util.trxStyle(this.data.transactionArray[i]);
+    for (let i = 0; i < mockTransactions.length; i++) {
+      mockTransactions[i] = util.trxInitial(mockTransactions[i])
     }
-    this.setData({ transactionArray: this.data.transactionArray })
+    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: mockTransactions })
   },
 
   /**
