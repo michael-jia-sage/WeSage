@@ -1,6 +1,6 @@
 <!--pages/index/Invoices.wxml-->
-<view class='list-container'>
- <view class='list-top'>
+<view class='Inv-container'>
+ <view class='Inv-top'>
     <view class='row'>
       <text class='label'>Filter: </text>
       <button bindtap="showAll">All</button>
@@ -11,24 +11,7 @@
       <text class='label'>Sort by: </text>
       <button bindtap="sortByDate">Date/Time</button>
       <button bindtap="sortByAmount">Amount</button>
-      <button bindtap="sortByMemo">Memo</button>
-    </view>
-    <view class='row sync-row'>
-      <view class='left'>
-        <view class='row'>
-          <text>Selected </text>
-          <text class='bold amount'>{{selected}}</text>
-          <text>, sub-total </text>
-          <text class='bold amount'>{{subtotal}}</text>
-        </view>
-        <view class='row'>
-          <button class='small' bindtap="selectAll">Select All</button>
-          <button class='small' bindtap="unselectAll">Unselect</button>
-        </view>
-      </view>
-      <view class='right'>
-        <button bindtap='syncSelected' disabled='{{disabled}}' type='primary'>Sync</button>
-      </view>
+      <button bindtap="sortByCust">Customer</button>
     </view>
   </view>
 <view class='list-bottom'>
@@ -42,7 +25,7 @@
                 </view>
                 <view class="info-right">
                   <view class="amount {{item.amount_style}}">{{item.amount}}</view>
-                  <view class="trans_type">{{item.trans_type}}</view>
+                  <view class="trans_type.bold">{{item.trans_type}}</view>
                 </view>
             </view>
         </view>

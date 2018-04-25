@@ -1,7 +1,6 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 import mockTransactions from './mock_invoices.js'
-
 var sprintf = require('../../utils/sprintf.js').sprintf
 
 Page({
@@ -143,7 +142,7 @@ Page({
     })
   },
 
-  sortByMemo: function (e) {
+  sortByCust: function (e) {
     var sortedTrans = []
     var sortOrder = 'asc'
     if (this.data.sortBy != 'memo' || this.data.sortOrder == 'desc') {
