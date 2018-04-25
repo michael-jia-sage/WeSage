@@ -40,32 +40,51 @@ const trxInitial = trx => {
   return trx
 }
 
-const compareTrxDate = (trx1, trx2) => {
-  if (trx1.date_time < trx2.date_time) {
-    return -1;
+const compareTrxDateAsc = (trx1, trx2) => {
+  return compareTrxDate(trx1.date_time, trx2.date_time, 'asc');
+}
+const compareTrxDateDesc = (trx1, trx2) => {
+  return compareTrxDate(trx1.date_time, trx2.date_time, 'desc');
+}
+const compareTrxDate = (date_time1, date_time2, order) => {
+  if (date_time1 < date_time2) {
+    return order == 'asc' ? -1 : 1;
   }
-  if (trx1.date_time > trx2.date_time) {
-    return 1;
+  if (date_time1 > date_time2) {
+    return order == 'asc' ? 1 : -1;
   }
   return 0;
 }
 
-const compareTrxAmount = (trx1, trx2) => {
-  if (Number(trx1.amount) < Number(trx2.amount)) {
-    return -1;
+const compareTrxAmountAsc = (trx1, trx2) => {
+  return compareTrxAmount(trx1.amount, trx2.amount, 'asc');
+}
+const compareTrxAmountDesc = (trx1, trx2) => {
+  return compareTrxAmount(trx1.amount, trx2.amount, 'desc');
+}
+const compareTrxAmount = (amount1, amount2, order) => {
+  if (Number(amount1) < Number(amount2)) {
+    return order == 'asc' ? -1 : 1;
   }
-  if (Number(trx1.amount) > Number(trx2.amount)) {
-    return 1;
+  if (Number(amount1) > Number(amount2)) {
+    return order == 'asc' ? 1 : -1;
   }
   return 0;
 }
 
-const compareTrxMemo = (trx1, trx2) => {
-  if (trx1.memo < trx2.memo) {
-    return -1;
+
+const compareTrxMemoAsc = (trx1, trx2) => {
+  return compareTrxMemo(trx1.memo, trx2.memo, 'asc');
+}
+const compareTrxMemoDesc = (trx1, trx2) => {
+  return compareTrxMemo(trx1.memo, trx2.memo, 'desc');
+}
+const compareTrxMemo = (memo1, memo2, order) => {
+  if (memo1 < memo2) {
+    return order == 'asc' ? -1 : 1;
   }
-  if (trx1.memo > trx2.memo) {
-    return 1;
+  if (memo1 > memo2) {
+    return order == 'asc' ? 1 : -1;
   }
   return 0;
 }
@@ -76,7 +95,10 @@ module.exports = {
   trxAmountStyle: trxAmountStyle,
   trxStyle: trxStyle,
   trxInitial: trxInitial,
-  compareTrxDate: compareTrxDate,
-  compareTrxAmount: compareTrxAmount,
-  compareTrxMemo: compareTrxMemo
+  compareTrxDateAsc: compareTrxDateAsc,
+  compareTrxDateDesc: compareTrxDateDesc,
+  compareTrxAmountAsc: compareTrxAmountAsc,
+  compareTrxAmountDesc: compareTrxAmountDesc,
+  compareTrxMemoAsc: compareTrxMemoAsc,
+  compareTrxMemoDesc: compareTrxMemoDesc
 }

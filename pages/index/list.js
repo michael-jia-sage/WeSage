@@ -2,6 +2,7 @@
 const App = getApp()
 const util = require('../../utils/util.js')
 import mockTransactions from './mock.js'
+var sprintf = require('../../utils/sprintf.js').sprintf
 
 Page({
 
@@ -12,7 +13,9 @@ Page({
     myTransactions: [],
     selected: 0,
     subtotal: 0,
-    disabled: true
+    disabled: true,
+    sortBy: 'date',
+    sortOrder: 'desc'
   },
 
   touchS: function (e) {  // touchstart
@@ -45,12 +48,12 @@ Page({
     if (trans.selected) {
       this.setData({ 
         selected: this.data.selected + 1, 
-        subtotal: this.data.subtotal + times * Number(trans.amount) 
+        subtotal: (Number(this.data.subtotal) + times * Number(trans.amount)).toFixed(2)
       })
     } else {
       this.setData({ 
         selected: this.data.selected - 1, 
-        subtotal: this.data.subtotal - times * Number(trans.amount)
+        subtotal: (Number(this.data.subtotal) - times * Number(trans.amount)).toFixed(2)
       })
     }
     this.setData({ disabled: this.data.selected <= 0 })
@@ -68,7 +71,8 @@ Page({
         subtotal -= Number(myTransactions[i].amount)
       }
     }
-    this.setData({ selected, subtotal, myTransactions })
+    this.setData({ selected, subtotal: subtotal.toFixed(2), myTransactions })
+    this.setData({ disabled: this.data.selected <= 0 })
   },
 
   unselectAll: function (e) {
@@ -77,7 +81,7 @@ Page({
       myTransactions[i].selected = false
       myTransactions[i].style = util.trxStyle(myTransactions[i])
     }
-    this.setData({ selected: 0, subtotal: 0, myTransactions })
+    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
   },
 
   showAll: function (e) {
@@ -108,20 +112,106 @@ Page({
   },
 
   sortByDate: function (e) {
+    var sortedTrans = []
+    var sortOrder = 'desc'
+    if (this.data.sortBy != 'date' || this.data.sortOrder == 'asc') {
+      sortedTrans = this.data.myTransactions.sort(util.compareTrxDateDesc)
+    } else {
+      sortOrder = 'asc'
+      sortedTrans = this.data.myTransactions.sort(util.compareTrxDateAsc)
+    }
     this.setData({
-      myTransactions: this.data.myTransactions.sort(util.compareTrxDate)
+      sortBy: 'date',
+      sortOrder: sortOrder,
+      myTransactions: sortedTrans
     })
   },
 
   sortByAmount: function (e) {
+    var sortedTrans = []
+    var sortOrder = 'desc'
+    if (this.data.sortBy != 'amount' || this.data.sortOrder == 'asc') {
+      sortedTrans = this.data.myTransactions.sort(util.compareTrxAmountDesc)
+    } else {
+      sortOrder = 'asc'
+      sortedTrans = this.data.myTransactions.sort(util.compareTrxAmountAsc)
+    }
     this.setData({
-      myTransactions: this.data.myTransactions.sort(util.compareTrxAmount)
+      sortBy: 'amount',
+      sortOrder: sortOrder,
+      myTransactions: sortedTrans
     })
   },
 
   sortByMemo: function (e) {
+    var sortedTrans = []
+    var sortOrder = 'asc'
+    if (this.data.sortBy != 'memo' || this.data.sortOrder == 'desc') {
+      sortedTrans = this.data.myTransactions.sort(util.compareTrxMemoAsc)
+    } else {
+      sortOrder = 'desc'
+      sortedTrans = this.data.myTransactions.sort(util.compareTrxMemoDesc)
+    }
     this.setData({
-      myTransactions: this.data.myTransactions.sort(util.compareTrxMemo)
+      sortBy: 'memo',
+      sortOrder: sortOrder,
+      myTransactions: sortedTrans
+    })
+  },
+
+  syncSelected: function (e) {
+    // prepare data
+    var res = 'nothing'
+    var trans = null
+    var rData = ''
+    var singleTrans = ''
+    var firstTrans = true
+    
+    for (let i = 0; i < this.data.myTransactions.length; i++) {
+      trans = this.data.myTransactions[i]
+      if (trans.selected) {
+        singleTrans = sprintf('{"date_time": "%1s", "trans_type": "%2s", "trans_id": "%3s", "amount": "%4s", "memo": "%5s"}', trans.data_time, trans.trans_type, trans.trans_id, trans.amount, trans.memo)
+        if (firstTrans) {
+          firstTrans = false
+          rData = singleTrans
+        } else {
+          rData = rData + ',' + singleTrans
+        }
+      }
+    }
+    rData = sprintf('{"trans": [%1s]}', rData)
+    console.log('send data is:', rData)
+
+    // call API to sync
+    var that = this
+    wx.request({
+      // wfa-api request test url
+      url: 'https://lyh-api.gameharbor.com.cn/wesage',
+      method: "GET",
+      dataType: "json",
+      data: rData,
+      success: function (result) {
+        console.log("result data is:", result.data)
+        res = result.data.value
+        // show results
+        wx.showModal({
+          title: 'Sync Completed',
+          content: res,
+          showCancel: false,
+          confirmText: 'Okay',
+          success: function (res) {
+          }
+        })
+        // remove synced transactions
+        var myTransactions = that.data.myTransactions
+        var newTransactions = []
+        for (let i = 0; i < myTransactions.length; i++) {
+          if (!myTransactions[i].selected) {
+            newTransactions.push(myTransactions[i])
+          }
+        }
+        that.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: newTransactions })
+      }
     })
   },
 
@@ -146,7 +236,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
   },
 
   /**
@@ -167,7 +256,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
   },
 
   /**
