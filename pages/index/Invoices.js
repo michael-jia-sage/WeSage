@@ -1,4 +1,5 @@
-const app = getApp()
+// pages/index/Invoices.js
+const App = getApp()
 const util = require('../../utils/util.js')
 import mockTransactions from './mock_invoices.js'
 var sprintf = require('../../utils/sprintf.js').sprintf
@@ -31,6 +32,7 @@ Page({
     let myTransactions = App.Touches.touchE(e, this.data.myTransactions, this.data.startX, width)
     myTransactions && this.setData({ myTransactions })
   },
+
   itemViewSync: function (e) {
     App.globalData.trans = this.data.myTransactions[e.currentTarget.dataset.index]
     wx.navigateTo({
