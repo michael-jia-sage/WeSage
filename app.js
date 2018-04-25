@@ -1,11 +1,21 @@
 //app.js
 import Touches from './utils/Touches.js'
+import mockTransactions from './pages/index/mock.js'
+const util = require('./utils/util.js')
 
 App({
   globalData: {
+    userInfo: null,
+    trans: null,
+    mockTransactions: mockTransactions
   },
-
+  Touches: new Touches(),
   onLaunch: function () {
+    // Initialize mock up data
+    for (let i = 0; i < mockTransactions.length; i++) {
+      mockTransactions[i] = util.trxInitial(mockTransactions[i])
+    }
+
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -37,10 +47,5 @@ App({
         }
       }
     })
-  },
-  globalData: {
-    userInfo: null,
-    trans: null
-  },
-  Touches: new Touches()
+  }
 })

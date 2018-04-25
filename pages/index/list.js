@@ -1,7 +1,6 @@
 // pages/index/list.js
 const App = getApp()
 const util = require('../../utils/util.js')
-import mockTransactions from './mock.js'
 var sprintf = require('../../utils/sprintf.js').sprintf
 
 Page({
@@ -32,6 +31,7 @@ Page({
     let myTransactions = App.Touches.touchE(e, this.data.myTransactions, this.data.startX, width)
     myTransactions && this.setData({ myTransactions })
   },
+
   itemViewSync: function (e) {
     App.globalData.trans = this.data.myTransactions[e.currentTarget.dataset.index]
     wx.navigateTo({
@@ -85,30 +85,44 @@ Page({
   },
 
   showAll: function (e) {
+    var mockTransactions = App.globalData.mockTransactions
     for (let i = 0; i < mockTransactions.length; i++) {
-      mockTransactions[i] = util.trxInitial(mockTransactions[i])
+      mockTransactions[i].displayed = true
     }
-    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: mockTransactions })
+    App.globalData.mockTransactions = mockTransactions
+    this.onLoad()
+    // for (let i = 0; i < mockTransactions.length; i++) {
+    //   mockTransactions[i] = util.trxInitial(mockTransactions[i])
+    // }
+    // this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: mockTransactions })
   },
 
   showReceive: function (e) {
-    var myTransactions = []
+    // var myTransactions = []
+    var mockTransactions = App.globalData.mockTransactions
     for (let i = 0; i < mockTransactions.length; i++) {
-      if (mockTransactions[i].trans_type == 'receive') {
-        myTransactions.push(util.trxInitial(mockTransactions[i]))
-      }
+      // if (mockTransactions[i].trans_type == 'receive') {
+        // myTransactions.push(util.trxInitial(mockTransactions[i]))
+      // }
+      mockTransactions[i].displayed = mockTransactions[i].trans_type == 'receive'
     }
-    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
+    // this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
+    App.globalData.mockTransactions = mockTransactions
+    this.onLoad()
   },
 
   showPayments: function (e) {
-    var myTransactions = []
+    // var myTransactions = []
+    var mockTransactions = App.globalData.mockTransactions
     for (let i = 0; i < mockTransactions.length; i++) {
-      if (mockTransactions[i].trans_type == 'pay') {
-        myTransactions.push(util.trxInitial(mockTransactions[i]))
-      }
+      // if (mockTransactions[i].trans_type == 'pay') {
+      //   myTransactions.push(util.trxInitial(mockTransactions[i]))
+      // }
+      mockTransactions[i].displayed = mockTransactions[i].trans_type == 'pay'
     }
-    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
+    // this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
+    App.globalData.mockTransactions = mockTransactions
+    this.onLoad()
   },
 
   sortByDate: function (e) {
@@ -204,13 +218,19 @@ Page({
         })
         // remove synced transactions
         var myTransactions = that.data.myTransactions
-        var newTransactions = []
+        var mockTransactions = App.globalData.mockTransactions
         for (let i = 0; i < myTransactions.length; i++) {
-          if (!myTransactions[i].selected) {
-            newTransactions.push(myTransactions[i])
+          if (myTransactions[i].selected) {
+            for (let j = 0; j < mockTransactions.length; j++) {
+              if (myTransactions[i].id == mockTransactions[j].id) {
+                mockTransactions[j].synced = true
+              }
+            }
           }
         }
-        that.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: newTransactions })
+        App.globalData.mockTransactions = mockTransactions
+        // that.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: newTransactions })
+        that.onLoad()
       }
     })
   },
@@ -219,10 +239,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var myTransactions = []
+    var mockTransactions = App.globalData.mockTransactions
     for (let i = 0; i < mockTransactions.length; i++) {
-      mockTransactions[i] = util.trxInitial(mockTransactions[i])
+      if (!mockTransactions[i].synced && mockTransactions[i].displayed) {
+        myTransactions.push(util.trxInitial(mockTransactions[i]))
+      }
     }
-    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: mockTransactions })
+    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
   },
 
   /**
@@ -236,6 +260,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.onLoad()
   },
 
   /**

@@ -28,6 +28,16 @@ Page({
       success: function (result) {
         console.log("result data is:", result.data)   
         res = result.data.value
+
+        // remove synced transaction
+        var mockTransactions = App.globalData.mockTransactions
+        for (let j = 0; j < mockTransactions.length; j++) {
+          if (trans.id == mockTransactions[j].id) {
+            mockTransactions[j].synced = true
+          }
+        }
+        App.globalData.mockTransactions = mockTransactions
+
         // show results
         wx.showModal({
           title: 'Sync Completed',
