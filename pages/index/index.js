@@ -56,6 +56,11 @@ Page({
       url: 'list',
     })
   },
+  openInvoicesPage: function(e) {
+    wx.navigateTo({
+      url: 'Invoices',
+    })
+  },
   openSettingPage: function (e) {
     wx.navigateTo({
       url: 'setting',

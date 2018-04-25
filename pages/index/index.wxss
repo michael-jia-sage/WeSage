@@ -10,8 +10,8 @@
 }
 
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
+  width: 96rpx;
+  height: 96rpx;
   margin: 20rpx;
   border-radius: 50%;
 }
@@ -20,10 +20,33 @@
   color: #aaa;
 }
 
+.programlogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50rpx;
+}
+
+.programlogo-pix {
+  width: 210rpx;
+  height: 210rpx;
+  margin: 20rpx;
+  border-radius: 70%;
+}
+
 .usermotto {
   margin-top: 200rpx;
 }
 
 .weui-btn {
   margin-top: 30rpx;
+}
+
+.version {
+  padding-top: 40rpx;
+}
+
+.version-info {
+  font-size: 30rpx;
+  color: black;
 }

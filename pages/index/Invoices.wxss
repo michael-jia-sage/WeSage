@@ -1,0 +1,203 @@
+/* pages/index/Invoices.wxss */
+.list-containter {
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100%;
+}
+
+.list-top {
+  height:320rpx;
+  flex:none;
+  margin: 0 20rpx 20rpx 20rpx;
+  border: solid 1rpx #ddd;
+  background-color: #eee;
+  border-radius: 5rpx;
+  width: 90%;
+  padding: 15rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list-top .row button {
+  width: 30%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  font-size: 28rpx; 
+  align-items: left;
+  white-space: nowrap;
+  margin-bottom: 5rpx;
+  width: 100%;
+}
+
+.row text {
+  height: 50rpx;
+  padding-top: 10rpx;
+}
+.row text.label {
+  width: 100rpx;
+  align-content: left;
+  align-self: left;
+  vertical-align: middle;
+  margin-right: 20rpx;
+}
+
+.row button {
+  font-size: 28rpx; 
+  margin-left: 5rpx;
+}
+
+.sync-row {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.sync-row .left {
+  width: 75%;
+  height: 50rpx;
+  padding-top: 10rpx;
+  align-items: flex-start;
+}
+
+.sync-row .left text.amount {
+  min-width: 100rpx;
+  margin-left: 10rpx;
+  font-size: 32rpx;
+  text-align: center;
+  color: blueviolet;
+}
+
+.sync-row .left button.small {
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+  vertical-align: top;
+  margin-top: 10rpx;
+  color: darkgreen;
+}
+
+.sync-row .right {
+  width: 20%;
+  align-items: flex-end;
+}
+.sync-row .right button{
+  width: 150rpx;
+  font-size: 40rpx; 
+  height: 140rpx;
+  padding-top: 20rpx;
+}
+
+.list-bottom {
+  width:100%;
+  flex:1 1 auto;
+  height:800rpx;
+  overflow-y:scroll;
+  white-space: nowrap;
+}
+
+.item-wrapper{
+    width: 100%; 
+    overflow: hidden;
+}
+
+.item-list{
+    position: relative;
+    width: 100%;
+    height: 138rpx;
+}
+
+.item-info, .item-oper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-bottom: 1rpx solid #ccc;
+}
+
+.item-info{
+    display: flex;
+    padding: 20rpx 20rpx 20rpx 0;
+    z-index: 2;
+    background: white;
+    transition: left 0.2s ease-in-out;
+}
+.item-info.selected{
+  background-color: #bfb
+}
+.item-info.hidden, .item-oper.hidden{
+  visibility: hidden;
+}
+.item-list:first-child{
+    border-top: 1rpx solid #ccc;
+}
+
+.item-oper{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.oper-sync{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300rpx;
+    z-index: 1;
+    color: white;
+    background: lightgreen;
+}
+
+.info-img{
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.info-wrapper{
+    margin-left: 20rpx;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+}
+
+.info-left{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 6rpx;
+}
+
+.info-left .name{
+    font-size: 32rpx;
+    color: black;
+    font-weight: 600;
+}
+
+.info-left .time{
+    font-size: 24rpx;
+    color: #999;
+}
+
+.info-right{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 6rpx;
+    text-align: right;
+    align-content: right;
+}
+
+.info-right .trans_type{
+    font-size: 24rpx;
+    color: #999;
+}
+
+.info-content{
+    font-size: 28rpx;
+    color: #999;
+    margin-top: 4rpx;
+}

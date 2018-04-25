@@ -1,0 +1,55 @@
+<!--pages/index/Invoices.wxml-->
+<view class='list-container'>
+ <view class='list-top'>
+    <view class='row'>
+      <text class='label'>Filter: </text>
+      <button bindtap="showAll">All</button>
+      <button bindtap="showPaid">Paid</button>
+      <button bindtap="showUnPaid">UnPaid</button>
+    </view>
+    <view class='row'>
+      <text class='label'>Sort by: </text>
+      <button bindtap="sortByDate">Date/Time</button>
+      <button bindtap="sortByAmount">Amount</button>
+      <button bindtap="sortByMemo">Memo</button>
+    </view>
+    <view class='row sync-row'>
+      <view class='left'>
+        <view class='row'>
+          <text>Selected </text>
+          <text class='bold amount'>{{selected}}</text>
+          <text>, sub-total </text>
+          <text class='bold amount'>{{subtotal}}</text>
+        </view>
+        <view class='row'>
+          <button class='small' bindtap="selectAll">Select All</button>
+          <button class='small' bindtap="unselectAll">Unselect</button>
+        </view>
+      </view>
+      <view class='right'>
+        <button bindtap='syncSelected' disabled='{{disabled}}' type='primary'>Sync</button>
+      </view>
+    </view>
+  </view>
+<view class='list-bottom'>
+    <scroll-view class="item-wrapper">
+      <view class="item-list" wx:for="{{myTransactions}}" wx:for-item="item" wx:for-index="index" wx:key="that">
+        <view class="item-info {{item.style}}" data-index="{{index}}" id="{{item.id}}" bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" bindtap="itemSelect" style="left:{{item.left + 'rpx'}}">
+            <view class="info-wrapper">
+                <view class="info-left">
+                    <view class="name">{{item.memo}}</view>
+                    <view class="time">{{item.date_time}}</view>
+                </view>
+                <view class="info-right">
+                  <view class="amount {{item.amount_style}}">{{item.amount}}</view>
+                  <view class="trans_type">{{item.trans_type}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="item-oper {{item.style}}">
+            <view class="oper-sync" bindtap="itemViewSync" data-index="{{index}}">View/Sync</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

@@ -5,7 +5,8 @@
     "pages/logs/logs",
     "pages/index/list",
     "pages/index/detail",
-    "pages/index/setting"
+    "pages/index/setting",
+    "pages/index/Invoices"
   ],
   "window": {
     "backgroundTextStyle": "light",
