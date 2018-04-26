@@ -6,7 +6,8 @@
     "pages/index/list",
     "pages/index/detail",
     "pages/index/setting",
-    "pages/index/Invoices"
+    "pages/index/Invoices",
+    "pages/index/showqrcode"
   ],
   "window": {
     "backgroundTextStyle": "light",

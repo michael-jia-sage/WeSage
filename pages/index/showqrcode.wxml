@@ -1,5 +1,8 @@
 <view class="container">
   <view class="aqrcode">
+    <text class='section__title'>Scan to Pay</text>
     <image bindtap="bindViewTap" class="aqrcode-pix" src="/pages/index/pictures/qrcode.jpg"></image>
+    <text></text>
+    <button class="weui-btn" type="primary" bindtap='confirmedPayment'>Confirmed Payment</button>
   </view>
 </view>

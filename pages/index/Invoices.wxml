@@ -17,7 +17,7 @@
   <view class='list-bottom'>
     <scroll-view class="item-wrapper">
       <view class="item-list" wx:for="{{myTransactions}}" wx:for-item="item" wx:for-index="index" wx:key="that">
-        <view class="item-info {{item.style}}" data-index="{{index}}" id="{{item.id}}" bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" bindtap="itemSelect" style="left:{{item.left + 'rpx'}}">
+        <view class="item-info {{item.style}}" data-index="{{index}}" id="{{item.id}}" bindtap="itemSelect" style="left:{{item.left + 'rpx'}}">
             <view class="info-wrapper">
                 <view class="info-left">
                     <view class="name">{{item.memo}}</view>

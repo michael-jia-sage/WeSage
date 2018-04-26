@@ -6,8 +6,7 @@
 }
 
 .aqrcode-pix {
-  width: 350rpx;
-  height: 350rpx;
+  width: 500rpx;
   margin: 20rpx;
-  border-radius: 70%;
+  border-radius: 10rpx;
 }

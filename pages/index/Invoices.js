@@ -20,6 +20,9 @@ Page({
   },
 
   itemSelect: function (e) {
+    wx.navigateTo({
+      url: 'showqrcode',
+    })
   },
 
   showAll: function (e) {
@@ -96,7 +99,7 @@ Page({
       myTransactions: sortedTrans
     })
   },
-  
+
   /**
    * 生命周期函数--监听页面加载
    */
