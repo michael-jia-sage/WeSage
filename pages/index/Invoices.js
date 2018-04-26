@@ -216,6 +216,11 @@ Page({
     })
   },
 
+  popupqrcode: function (e) {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

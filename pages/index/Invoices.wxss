@@ -204,3 +204,30 @@
     color: #999;
     margin-top: 4rpx;
 }
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.popup .popup-pix {
+    visibility: hidden;
+    width: 96px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 3rpx;
+    padding: 4rpx 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -40px;  
+}
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}

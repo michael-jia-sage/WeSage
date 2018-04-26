@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="aqrcode">
+    <image bindtap="bindViewTap" class="aqrcode-pix" src="/pages/index/pictures/qrcode.jpg"></image>
+  </view>
+</view>
