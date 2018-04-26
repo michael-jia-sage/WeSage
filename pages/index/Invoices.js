@@ -1,7 +1,8 @@
 // pages/index/Invoices.js
 const App = getApp()
 const util = require('../../utils/util.js')
-import mockTransactions from './mock_invoices.js'
+// import mockTransactions from './mock_invoices.js'
+var mockTransactions = []
 var sprintf = require('../../utils/sprintf.js').sprintf
 
 Page({
@@ -18,71 +19,7 @@ Page({
     sortOrder: 'desc'
   },
 
-  touchS: function (e) {  // touchstart
-    let startX = App.Touches.getClientX(e)
-    startX && this.setData({ startX })
-  },
-  touchM: function (e) {  // touchmove
-    let myTransactions = App.Touches.touchM(e, this.data.myTransactions, this.data.startX)
-    myTransactions && this.setData({ myTransactions })
-
-  },
-  touchE: function (e) {  // touchend
-    const width = 300  // 定义操作列表宽度
-    let myTransactions = App.Touches.touchE(e, this.data.myTransactions, this.data.startX, width)
-    myTransactions && this.setData({ myTransactions })
-  },
-
-  itemViewSync: function (e) {
-    App.globalData.trans = this.data.myTransactions[e.currentTarget.dataset.index]
-    wx.navigateTo({
-      url: 'detail'
-    })
-  },
   itemSelect: function (e) {
-    var idx = e.currentTarget.dataset.index
-    var trans = this.data.myTransactions[idx]
-    trans.selected = !trans.selected
-    trans.style = util.trxStyle(trans)
-    this.setData({ myTransactions: this.data.myTransactions })
-    var times = trans.amount_style == 'plus' ? 1 : -1
-    if (trans.selected) {
-      this.setData({
-        selected: this.data.selected + 1,
-        subtotal: (Number(this.data.subtotal) + times * Number(trans.amount)).toFixed(2)
-      })
-    } else {
-      this.setData({
-        selected: this.data.selected - 1,
-        subtotal: (Number(this.data.subtotal) - times * Number(trans.amount)).toFixed(2)
-      })
-    }
-    this.setData({ disabled: this.data.selected <= 0 })
-  },
-
-  selectAll: function (e) {
-    var myTransactions = this.data.myTransactions
-    var selected = myTransactions.length, subtotal = 0
-    for (let i = 0; i < selected; i++) {
-      myTransactions[i].selected = true
-      myTransactions[i].style = util.trxStyle(myTransactions[i])
-      if (myTransactions[i].amount_style == 'plus') {
-        subtotal += Number(myTransactions[i].amount)
-      } else {
-        subtotal -= Number(myTransactions[i].amount)
-      }
-    }
-    this.setData({ selected, subtotal: subtotal.toFixed(2), myTransactions })
-    this.setData({ disabled: this.data.selected <= 0 })
-  },
-
-  unselectAll: function (e) {
-    var myTransactions = this.data.myTransactions
-    for (let i = 0; i < myTransactions.length; i++) {
-      myTransactions[i].selected = false
-      myTransactions[i].style = util.trxStyle(myTransactions[i])
-    }
-    this.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions })
   },
 
   showAll: function (e) {
@@ -159,72 +96,12 @@ Page({
       myTransactions: sortedTrans
     })
   },
-
-  syncSelected: function (e) {
-    // prepare data
-    var res = 'nothing'
-    var trans = null
-    var rData = ''
-    var singleTrans = ''
-    var firstTrans = true
-
-    for (let i = 0; i < this.data.myTransactions.length; i++) {
-      trans = this.data.myTransactions[i]
-      if (trans.selected) {
-        singleTrans = sprintf('{"date_time": "%1s", "trans_type": "%2s", "trans_id": "%3s", "amount": "%4s", "memo": "%5s"}', trans.data_time, trans.trans_type, trans.trans_id, trans.amount, trans.memo)
-        if (firstTrans) {
-          firstTrans = false
-          rData = singleTrans
-        } else {
-          rData = rData + ',' + singleTrans
-        }
-      }
-    }
-    rData = sprintf('{"trans": [%1s]}', rData)
-    console.log('send data is:', rData)
-
-    // call API to sync
-    var that = this
-    wx.request({
-      // wfa-api request test url
-      url: 'https://lyh-api.gameharbor.com.cn/wesage',
-      method: "GET",
-      dataType: "json",
-      data: rData,
-      success: function (result) {
-        console.log("result data is:", result.data)
-        res = result.data.value
-        // show results
-        wx.showModal({
-          title: 'Sync Completed',
-          content: res,
-          showCancel: false,
-          confirmText: 'Okay',
-          success: function (res) {
-          }
-        })
-        // remove synced transactions
-        var myTransactions = that.data.myTransactions
-        var newTransactions = []
-        for (let i = 0; i < myTransactions.length; i++) {
-          if (!myTransactions[i].selected) {
-            newTransactions.push(myTransactions[i])
-          }
-        }
-        that.setData({ selected: 0, subtotal: 0, disabled: true, myTransactions: newTransactions })
-      }
-    })
-  },
-
-  popupqrcode: function (e) {
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
-  },
-
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    mockTransactions = App.globalData.realInvoices
     for (let i = 0; i < mockTransactions.length; i++) {
       mockTransactions[i] = util.trxInitial(mockTransactions[i])
     }

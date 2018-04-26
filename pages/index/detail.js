@@ -41,7 +41,7 @@ Page({
         // show results
         wx.showModal({
           title: 'Sync Completed',
-          content: res,
+          content: 'This transaction has been synced to Sage Accounting.',
           showCancel: false,
           confirmText: 'Okay',
           success: function (res) {

@@ -7,7 +7,8 @@ App({
   globalData: {
     userInfo: null,
     trans: null,
-    mockTransactions: mockTransactions
+    mockTransactions: mockTransactions,
+    realInvoices: []
   },
   Touches: new Touches(),
   onLaunch: function () {
@@ -15,6 +16,33 @@ App({
     for (let i = 0; i < mockTransactions.length; i++) {
       mockTransactions[i] = util.trxInitial(mockTransactions[i])
     }
+
+    // get invoices from Sage
+    wx.request({
+      // wfa-api request test url
+      url: 'https://lyh-api.gameharbor.com.cn/sage/invoices',
+      method: "GET",
+      dataType: "json",
+      success: function (result) {
+        console.log("result data is:", result.data)
+        //res = result.data.value
+        var realInvoices = []
+        var inv = null
+        for (let i = 0; i < result.data.$items.length; i++) {
+          inv = result.data.$items[i]
+          realInvoices.push({
+            id: inv.displayed_as, 
+            amount: inv.total_amount, 
+            trans_type: inv.status.displayed_as, 
+            date_time: inv.date, 
+            due_date: inv.due_date,
+            trans_id: inv.id, 
+            memo: inv.contact.displayed_as
+          })
+        }
+        getApp().globalData.realInvoices = realInvoices
+      }
+    })
 
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []

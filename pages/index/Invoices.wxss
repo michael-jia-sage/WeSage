@@ -95,7 +95,7 @@
 .list-bottom {
   width:100%;
   flex:1 1 auto;
-  height:800rpx;
+  height:900rpx;
   overflow-y:scroll;
   white-space: nowrap;
 }
